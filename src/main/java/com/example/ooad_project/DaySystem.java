@@ -1,8 +1,8 @@
 package com.example.ooad_project;
 
-import com.example.ooad_project.Events.DayChangeEvent;
+import com.example.ooad_project.Events.DayRollOver;
 import com.example.ooad_project.Plant.Plant;
-import com.example.ooad_project.ThreadUtils.EventBus;
+import com.example.ooad_project.ThreadUtils.EventChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +43,7 @@ public class DaySystem {
         try {
             logger.info("End of Day: {}", getCurrentDay());
 
-            EventBus.publish("SprinklerActivationEvent", null);
+            EventChannel.publish("SprinklerActivationEvent", null);
 
             for (int i = 0; i < gardenGrid.getNumRows(); i++) {
                 for (int j = 0; j < gardenGrid.getNumCols(); j++) {
@@ -57,7 +57,7 @@ public class DaySystem {
             }
 
             incrementDay();
-            EventBus.publish("DayChangeEvent", new DayChangeEvent(getCurrentDay()));
+            EventChannel.publish("DayChangeEvent", new DayRollOver(getCurrentDay()));
             logger.info("Changed day to: {}", getCurrentDay());
 
         } catch (Exception e) {

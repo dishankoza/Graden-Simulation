@@ -6,37 +6,40 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ParasiteManager {
-    private static ParasiteManager instance;
-    private List<Parasite> parasites;
+    private static volatile ParasiteManager instance;
+    private Map<String, Parasite> parasiteMap;
 
     private ParasiteManager() {
-        parasites = new ArrayList<>();
+        parasiteMap = new HashMap<>();
         loadParasitesData();
     }
 
-    public static synchronized ParasiteManager getInstance() {
+    public static ParasiteManager getInstance() {
         if (instance == null) {
-            instance = new ParasiteManager();
+            synchronized (ParasiteManager.class) {
+                if (instance == null) {
+                    instance = new ParasiteManager();
+                }
+            }
         }
         return instance;
     }
 
     public Parasite getParasiteByName(String name) {
-        for (Parasite parasite : parasites) {
-            if (parasite.getName().equalsIgnoreCase(name)) {
-                return parasite;
-            }
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Parasite name cannot be null or empty");
         }
-        return null; // Or throw an exception if preferred
+        return parasiteMap.get(name.toLowerCase());
     }
 
     private void loadParasitesData() {
+        String filePath = "parasites.json"; // You could externalize this path
+
         try {
-            String content = new String(Files.readAllBytes(Paths.get("parasites.json")));
+            String content = new String(Files.readAllBytes(Paths.get(filePath)));
             JSONObject jsonObject = new JSONObject(content);
             JSONArray parasitesArray = jsonObject.getJSONArray("parasites");
 
@@ -48,26 +51,25 @@ public class ParasiteManager {
                     targetPlants.add(targetPlantsJsonArray.getString(j));
                 }
 
-                // Use the factory to create the parasite instance
+                // Create the parasite and add it to the map
                 Parasite parasite = ParasiteFactory.createParasite(
                         parasiteJson.getString("name"),
                         parasiteJson.getInt("damage"),
                         parasiteJson.getString("imageName"),
                         targetPlants
                 );
-                parasites.add(parasite);
+                if (parasite != null) {
+                    parasiteMap.put(parasite.getName().toLowerCase(), parasite);
+                }
             }
         } catch (IOException e) {
-//            Should Log the error
-//            Parasite Creation Failed
-//            Implement Logger later
+            // Log the error or handle it appropriately
+            System.err.println("Error loading parasites data: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-
-
-    public List<Parasite> getParasites() {
-        return parasites;
+    public ArrayList<Parasite> getParasites() {
+        return new ArrayList<>(parasiteMap.values());
     }
 }

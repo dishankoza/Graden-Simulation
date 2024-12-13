@@ -21,10 +21,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class HelloApplication extends Application {
+public class EntryPoint extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(EntryPoint.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 800);
         stage.setTitle("OOAD - Project!");
         stage.setScene(scene) ;
@@ -91,6 +91,11 @@ public class HelloApplication extends Application {
         timeline3.play();
 
 
+    }
+
+    @Override
+    public void stop() {
+        ThreadManager.shutdown();
     }
 
 

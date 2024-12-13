@@ -1,8 +1,8 @@
 package com.example.ooad_project.Parasite;
 
-import com.example.ooad_project.Events.ParasiteDamageEvent;
+import com.example.ooad_project.Events.ParasiteInflictionEvent;
 import com.example.ooad_project.Plant.Plant;
-import com.example.ooad_project.ThreadUtils.EventBus;
+import com.example.ooad_project.ThreadUtils.EventChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +26,8 @@ public abstract class Parasite {
     public abstract void affectPlant(Plant plant);
 
 
-    protected void publishDamageEvent(ParasiteDamageEvent event) {
-        EventBus.publish("ParasiteDamageEvent", event);
+    protected void publishDamageEvent(ParasiteInflictionEvent event) {
+        EventChannel.publish("ParasiteDamageEvent", event);
     }
 
 

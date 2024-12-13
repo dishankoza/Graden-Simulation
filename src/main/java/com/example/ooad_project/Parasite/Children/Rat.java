@@ -1,6 +1,6 @@
 package com.example.ooad_project.Parasite.Children;
 
-import com.example.ooad_project.Events.ParasiteDamageEvent;
+import com.example.ooad_project.Events.ParasiteInflictionEvent;
 import com.example.ooad_project.Parasite.Parasite;
 import com.example.ooad_project.Plant.Plant;
 
@@ -27,7 +27,7 @@ public class Rat extends Parasite {
             // If not missed, apply the damage
             int oldHealth = plant.getCurrentHealth();
             int newHealth = Math.max(0, plant.getCurrentHealth() - this.getDamage());
-            super.publishDamageEvent(new ParasiteDamageEvent(plant.getRow(),plant.getCol(), this.getDamage()));
+            super.publishDamageEvent(new ParasiteInflictionEvent(plant.getRow(),plant.getCol(), this.getDamage()));
 
             plant.setCurrentHealth(newHealth);
             logger.info("Rat has successfully damaged the plant {} at position ({}, {}). Old health: {}. New health: {}",

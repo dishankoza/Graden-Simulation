@@ -1,6 +1,6 @@
 package com.example.ooad_project.Parasite.Children;
 
-import com.example.ooad_project.Events.ParasiteDamageEvent;
+import com.example.ooad_project.Events.ParasiteInflictionEvent;
 import com.example.ooad_project.Parasite.Parasite;
 import com.example.ooad_project.Plant.Plant;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +26,7 @@ public class Aphids extends Parasite {
             // If not missed, apply the damage
             int oldHealth = plant.getCurrentHealth();
             int newHealth = Math.max(0, plant.getCurrentHealth() - this.getDamage());
-            super.publishDamageEvent(new ParasiteDamageEvent(plant.getRow(),plant.getCol(), this.getDamage()));
+            super.publishDamageEvent(new ParasiteInflictionEvent(plant.getRow(),plant.getCol(), this.getDamage()));
 
             plant.setCurrentHealth(newHealth);
             logger.info("Aphid has successfully damaged the plant {} at position ({}, {}). Old health: {}. New health: {}",

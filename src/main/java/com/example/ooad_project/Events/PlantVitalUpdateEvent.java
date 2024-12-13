@@ -1,13 +1,13 @@
 package com.example.ooad_project.Events;
 
-public class PlantHealthUpdateEvent {
+public class PlantVitalUpdateEvent {
 
         int row;
         int col;
         int oldHealth;
         int newHealth;
 
-        public PlantHealthUpdateEvent(int row, int col, int oldHealth, int newHealth) {
+        public PlantVitalUpdateEvent(int row, int col, int oldHealth, int newHealth) {
             this.row = row;
             this.col = col;
             this.oldHealth = oldHealth;

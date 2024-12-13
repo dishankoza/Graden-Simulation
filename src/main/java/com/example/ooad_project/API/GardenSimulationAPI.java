@@ -9,7 +9,7 @@ import com.example.ooad_project.Parasite.Parasite;
 import com.example.ooad_project.Parasite.ParasiteManager;
 import com.example.ooad_project.Plant.Plant;
 import com.example.ooad_project.Plant.PlantManager;
-import com.example.ooad_project.ThreadUtils.EventBus;
+import com.example.ooad_project.ThreadUtils.EventChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +27,7 @@ public class GardenSimulationAPI implements GardenSimulationAPIInterface {
         GardenGrid gardenGrid = GardenGrid.getInstance();
         PlantManager plantManager = PlantManager.getInstance();
 
-        EventBus.publish("InitializeGarden", null);
+        EventChannel.publish("InitializeGarden", null);
 
 
 //        }
@@ -68,13 +68,13 @@ public class GardenSimulationAPI implements GardenSimulationAPIInterface {
     @Override
     public void rain(int amount) {
         logger.info("API called rain with amount: {}", amount);
-        EventBus.publish("RainEvent", new RainEvent(amount));
+        EventChannel.publish("RainEvent", new RainEvent(amount));
     }
 
     @Override
     public void temperature(int amount) {
         logger.info("API called temperature set to: {}", amount);
-        EventBus.publish("TemperatureEvent", new TemperatureEvent(amount));
+        EventChannel.publish("TemperatureEvent", new TemperatureEvent(amount));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GardenSimulationAPI implements GardenSimulationAPIInterface {
             logger.info("API - Parasite with name {} not found", name);
             return;
         }
-        EventBus.publish("ParasiteEvent", new ParasiteEvent(parasite));
+        EventChannel.publish("ParasiteEvent", new ParasiteEvent(parasite));
 
     }
 

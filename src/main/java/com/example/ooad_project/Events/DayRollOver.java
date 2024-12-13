@@ -1,10 +1,10 @@
 package com.example.ooad_project.Events;
 
-public class DayChangeEvent {
+public class DayRollOver {
 
     private final int day;
 
-    public DayChangeEvent(int day) {
+    public DayRollOver(int day) {
         this.day = day;
     }
 

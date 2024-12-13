@@ -13,8 +13,6 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 @Plugin(name = "LoggerAppender", category = "Core", elementType = Appender.ELEMENT_TYPE, printObject = true)
 public class LoggerAppender extends AbstractAppender {
 
-    private static GardenUIController controller;
-
     protected LoggerAppender(String name, Layout<?> layout) {
         super(name, null, layout, true, null);
     }

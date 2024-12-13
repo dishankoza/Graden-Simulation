@@ -1,12 +1,12 @@
 package com.example.ooad_project.Events;
 
-public class ParasiteDamageEvent {
+public class ParasiteInflictionEvent {
 
     int row;
     int col;
     int damage;
 
-    public ParasiteDamageEvent(int row, int col, int damage) {
+    public ParasiteInflictionEvent(int row, int col, int damage) {
         this.row = row;
         this.col = col;
         this.damage = damage;
@@ -23,6 +23,5 @@ public class ParasiteDamageEvent {
     public int getDamage() {
         return damage;
     }
-
 
 }

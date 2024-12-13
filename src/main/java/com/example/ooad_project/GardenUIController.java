@@ -9,7 +9,7 @@ import com.example.ooad_project.Plant.Plant;
 import com.example.ooad_project.Plant.Children.Tree;
 import com.example.ooad_project.Plant.Children.Vegetable;
 import com.example.ooad_project.Plant.PlantManager;
-import com.example.ooad_project.ThreadUtils.EventBus;
+import com.example.ooad_project.ThreadUtils.EventChannel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -177,35 +177,35 @@ public class GardenUIController {
 
 
 
-        EventBus.subscribe("RainEvent", event -> changeRainUI((RainEvent) event));
-        EventBus.subscribe("DisplayParasiteEvent", event -> handleDisplayParasiteEvent((DisplayParasiteEvent) event));
-        EventBus.subscribe("PlantImageUpdateEvent", event -> handlePlantImageUpdateEvent((PlantImageUpdateEvent) event));
-        EventBus.subscribe("DayChangeEvent",event -> handleDayChangeEvent((DayChangeEvent) event));
-        EventBus.subscribe("TemperatureEvent", event -> changeTemperatureUI((TemperatureEvent) event));
-        EventBus.subscribe("ParasiteEvent", event -> changeParasiteUI((ParasiteEvent) event));
+        EventChannel.subscribe("RainEvent", event -> changeRainUI((RainEvent) event));
+        EventChannel.subscribe("DisplayParasiteEvent", event -> handleDisplayParasiteEvent((ParasiteShowEvent) event));
+        EventChannel.subscribe("PlantImageUpdateEvent", event -> handlePlantImageUpdateEvent((PlantImageUpdateEvent) event));
+        EventChannel.subscribe("DayChangeEvent",event -> handleDayChangeEvent((DayRollOver) event));
+        EventChannel.subscribe("TemperatureEvent", event -> changeTemperatureUI((TemperatureEvent) event));
+        EventChannel.subscribe("ParasiteEvent", event -> changeParasiteUI((ParasiteEvent) event));
 
 //      Gives you row, col and waterneeded
-        EventBus.subscribe("SprinklerEvent", event -> handleSprinklerEvent((SprinklerEvent) event));
+        EventChannel.subscribe("SprinklerEvent", event -> handleSprinklerEvent((SprinklerEvent) event));
 
 
 //        When plant is cooled by x
-        EventBus.subscribe("TemperatureCoolEvent", event -> handleTemperatureCoolEvent((TemperatureCoolEvent) event));
+        EventChannel.subscribe("TemperatureCoolEvent", event -> handleTemperatureCoolEvent((TemperatureCoolEvent) event));
 
 
 //      When plant is heated by x
-        EventBus.subscribe("TemperatureHeatEvent", event -> handleTemperatureHeatEvent((TemperatureHeatEvent) event));
+        EventChannel.subscribe("TemperatureHeatEvent", event -> handleTemperatureHeatEvent((TemperatureHeatEvent) event));
 
 
 //        When plant is damaged by x
 //        Includes -> row, col, damage
-        EventBus.subscribe("ParasiteDamageEvent", event -> handleParasiteDamageEvent((ParasiteDamageEvent) event));
+        EventChannel.subscribe("ParasiteDamageEvent", event -> handleParasiteDamageEvent((ParasiteInflictionEvent) event));
 
-        EventBus.subscribe("InitializeGarden", event -> handleInitializeGarden());
+        EventChannel.subscribe("InitializeGarden", event -> handleInitializeGarden());
 
 //        Event whenever there is change to plants health
-        EventBus.subscribe("PlantHealthUpdateEvent", event -> handlePlantHealthUpdateEvent((PlantHealthUpdateEvent) event));
+        EventChannel.subscribe("PlantHealthUpdateEvent", event -> handlePlantHealthUpdateEvent((PlantVitalUpdateEvent) event));
 
-        EventBus.subscribe("PlantDeathUIChangeEvent", event -> handlePlantDeathUIChangeEvent((Plant) event));
+        EventChannel.subscribe("PlantDeathUIChangeEvent", event -> handlePlantDeathUIChangeEvent((Plant) event));
 
     }
 
@@ -213,7 +213,7 @@ public class GardenUIController {
 
     }
 
-    private void handlePlantHealthUpdateEvent(PlantHealthUpdateEvent event){
+    private void handlePlantHealthUpdateEvent(PlantVitalUpdateEvent event){
         System.out.println("Plant health updated at row " + event.getRow() + " and column " + event.getCol() + " from " + event.getOldHealth() + " to " + event.getNewHealth());
     }
 
@@ -223,7 +223,7 @@ public class GardenUIController {
                 {"Oak", 0, 1}, {"Maple", 0, 5}, {"Pine", 0, 6},
                 {"Tomato", 1, 6}, {"Carrot", 2, 2}, {"Lettuce", 1, 0},
                 {"Sunflower", 3, 1}, {"Rose", 4, 4}, {"Jasmine", 4, 6},
-                {"Oak", 5, 6}, {"Tomato", 3, 0}, {"Sunflower", 5, 3}
+                {"Oak", 2, 6}, {"Tomato", 3, 0}, {"Sunflower", 4, 3}
         };
 
         Platform.runLater(() -> {
@@ -265,7 +265,7 @@ public class GardenUIController {
     }
 
 //    Function that is called when the parasite damage event is published
-private void handleParasiteDamageEvent(ParasiteDamageEvent event) {
+private void handleParasiteDamageEvent(ParasiteInflictionEvent event) {
 
         logger.info("Displayed plant damaged at row " + event.getRow() + " and column " + event.getCol() + " by " + event.getDamage());
 
@@ -384,7 +384,7 @@ private void handleSprinklerEvent(SprinklerEvent event) {
 //        Platform.runLater(() -> logTextArea.appendText(text + "\n"));
 //    }
 
-    public void handleDayChangeEvent(DayChangeEvent event) {
+    public void handleDayChangeEvent(DayRollOver event) {
 
         logger.info("Day changed to: " + event.getDay());
 
@@ -435,7 +435,7 @@ private void handleSprinklerEvent(SprinklerEvent event) {
     }
 
 
-    private void handleDisplayParasiteEvent(DisplayParasiteEvent event) {
+    private void handleDisplayParasiteEvent(ParasiteShowEvent event) {
 
         logger.info("Parasite displayed at row " + event.getRow() + " and column " + event.getColumn() + " with name " + event.getParasite().getName());
 

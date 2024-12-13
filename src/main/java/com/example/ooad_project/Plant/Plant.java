@@ -1,9 +1,9 @@
 package com.example.ooad_project.Plant;
 
 
-import com.example.ooad_project.Events.PlantHealthUpdateEvent;
+import com.example.ooad_project.Events.PlantVitalUpdateEvent;
 import com.example.ooad_project.Events.PlantImageUpdateEvent;
-import com.example.ooad_project.ThreadUtils.EventBus;
+import com.example.ooad_project.ThreadUtils.EventChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -91,12 +91,12 @@ public abstract class Plant {
 
         if (this.currentHealth <= 0) {
             this.currentHealth = 0;
-            EventBus.publish("PlantDeathEvent", this);
+            EventChannel.publish("PlantDeathEvent", this);
             return;
         }
 
 
-        EventBus.publish("PlantHealthUpdateEvent", new PlantHealthUpdateEvent(this.row, this.col, oldHealth, this.currentHealth));
+        EventChannel.publish("PlantHealthUpdateEvent", new PlantVitalUpdateEvent(this.row, this.col, oldHealth, this.currentHealth));
 
         int currentStage = getHealthStage();
 
@@ -114,7 +114,7 @@ public abstract class Plant {
     private void updatePlantImage(int stage) {
         if (stage >= 0 && stage < this.allImages.size()) {
             this.currentImage = this.allImages.get(stage);
-            EventBus.publish("PlantImageUpdateEvent", new PlantImageUpdateEvent(this));
+            EventChannel.publish("PlantImageUpdateEvent", new PlantImageUpdateEvent(this));
         }
     }
 
