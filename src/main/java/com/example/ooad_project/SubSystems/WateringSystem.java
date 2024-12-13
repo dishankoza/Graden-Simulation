@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WateringSystem implements Runnable {
     private final AtomicBoolean rainRequested = new AtomicBoolean(false);
-    private static final Logger logger = LogManager.getLogger(WateringSystem.class);
+    private static final Logger logger = LogManager.getLogger("WateringSystemLogger");
     private final GardenGrid gardenGrid;
 
     public WateringSystem() {

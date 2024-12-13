@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class TemperatureSystem implements Runnable {
 
     private final GardenGrid gardenGrid;
-    private static final Logger logger = LogManager.getLogger(TemperatureSystem.class);
+    private static final Logger logger = LogManager.getLogger("TemperatureSystemLogger");
 
     public TemperatureSystem() {
         // Initialize GardenGrid and subscribe to TemperatureEvent
